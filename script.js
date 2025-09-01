@@ -4,11 +4,10 @@ const paper = "paper";
 const scissors = "scissors";
 let humanScore = 0;
 let computerScore = 0;
+let humanSelection;
+let computerSelection;
 
-let humanSelection = getHumanChoice();
-let computerSelection = getComputerChoice();
-
-console.log(playRound(humanSelection, computerSelection));
+playGame();
 
 function getComputerChoice() {
     // Variables for number that represents choice and future string choice.
@@ -44,38 +43,60 @@ function playRound(humanChoice, computerChoice) {
 
     // Check one by one conditions for victory, draw and loose.
     if(humanChoice == "rock" && computerChoice == "scissors") {
-        result = "You win!";
+        result = "You win round!";
         humanScore++;
     }
     else if(humanChoice == "rock" && computerChoice == "rock")
-        result = "Draw.";
+        result = "Draw this time.";
     else if(humanChoice == "rock" && computerChoice == "paper") {
-        result = "You lose...";
+        result = "You lose round...";
         computerScore++;
     }
 
     if(humanChoice == "paper" && computerChoice == "rock") {
-        result = "You win!";
+        result = "You win round!";
         humanScore++;
     }
     else if(humanChoice == "paper" && computerChoice == "paper")
-        result = "Draw.";
+        result = "Draw this time.";
     else if(humanChoice == "paper" && computerChoice == "scissors") {
-        result = "You lose...";
+        result = "You lose round...";
         computerScore++;
     }
 
     if(humanChoice == "scissors" && computerChoice == "paper") {
-        result = "You win!";
+        result = "You win round!";
         humanScore++;
     }
     else if(humanChoice == "scissors" && computerChoice == "scissors")
-        result = "Draw.";
+        result = "Draw this time.";
     else if(humanChoice == "scissors" && computerChoice == "rock") {
         result = "You lose...";
         computerScore++;
     }
 
-    // console.log("Human choice: " + humanChoice + ", computer choice: " + computerChoice + ". Human score: " + humanScore + ", computer score: " + computerScore);
+    // Create information about current round and write it in result.
+    result = "Human choice: " + humanChoice + ", computer choice: " + computerChoice + ". Human score: " + humanScore + ", computer score: " + computerScore + "\n" + result;
     return result;
+}
+
+function playGame() {
+    // Loop for n rounds.
+    let rounds = 5;
+    for (let i = 0; i < rounds; i++) {
+        humanSelection = getHumanChoice();
+        computerSelection = getComputerChoice();
+        console.log(playRound(humanSelection, computerSelection));   
+    }
+
+    // Compare final score to find winner.
+    if (humanScore > computerScore) {
+        console.log("You win the game! Total score: " + humanScore + " : " + computerScore);
+    }
+    else if (humanScore < computerScore) {
+        console.log("You lose the game... Total score: " + humanScore + " : " + computerScore);
+    }
+    else {
+        console.log("Draw with computer in this time. Total score: " + humanScore + " : " + computerScore);
+    }
 }
