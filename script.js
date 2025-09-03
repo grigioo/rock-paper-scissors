@@ -7,7 +7,9 @@ let computerScore = 0;
 let humanSelection;
 let computerSelection;
 
-playGame();
+const buttons = document.querySelectorAll('button');
+const output = document.querySelector('.output');
+const final = document.querySelector('.result');
 
 function getComputerChoice() {
     // Variables for number that represents choice and future string choice.
@@ -76,27 +78,36 @@ function playRound(humanChoice, computerChoice) {
     }
 
     // Create information about current round and write it in result.
-    result = "Human choice: " + humanChoice + ", computer choice: " + computerChoice + ". Human score: " + humanScore + ", computer score: " + computerScore + "\n" + result;
+    result = humanChoice + " : " + computerChoice + " - " + humanScore + " : " + computerScore;
     return result;
 }
 
-function playGame() {
-    // Loop for n rounds.
-    let rounds = 5;
-    for (let i = 0; i < rounds; i++) {
-        humanSelection = getHumanChoice();
-        computerSelection = getComputerChoice();
-        console.log(playRound(humanSelection, computerSelection));   
-    }
-
+function checkStatus() {
     // Compare final score to find winner.
     if (humanScore > computerScore) {
-        console.log("You win the game! Total score: " + humanScore + " : " + computerScore);
+        return "You win the game! Total score: " + humanScore + " : " + computerScore;
     }
     else if (humanScore < computerScore) {
-        console.log("You lose the game... Total score: " + humanScore + " : " + computerScore);
+        return "You lose the game... Total score: " + humanScore + " : " + computerScore;
     }
     else {
-        console.log("Draw with computer in this time. Total score: " + humanScore + " : " + computerScore);
+        return "Draw with computer in this time. Total score: " + humanScore + " : " + computerScore;
     }
 }
+
+function buttonClick(event) {
+    humanSelection = event.target.getAttribute('class');
+    computerSelection = getComputerChoice();
+    output.textContent =  playRound(humanSelection, computerSelection);
+
+    if (humanScore === 5) {
+        final.textContent = checkStatus();
+        buttons.forEach( button => {
+            button.removeEventListener('click', buttonClick);
+        });
+    }
+}
+
+buttons.forEach( button => {
+    button.addEventListener('click', buttonClick);
+});
